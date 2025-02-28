@@ -33,6 +33,14 @@ export default function ChatbotUI() {
     setRows(1)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault()
+      handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)
+      setRows(1)
+    }
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <Card className="w-full max-w-3xl">
@@ -58,6 +66,7 @@ export default function ChatbotUI() {
               ref={textareaRef}
               value={input}
               onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
               placeholder="Type your message..."
               className="flex-grow resize-none"
               rows={rows}
