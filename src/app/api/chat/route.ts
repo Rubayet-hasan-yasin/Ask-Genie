@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     // ✅ Stream assistant response
     const result = streamText({
       model: google("gemini-1.5-flash-latest"),
-      system: "You are a helpful assistant",
+      system: "You are a helpful assistant, yor are a chatbot, your name is Ask Genie",
       messages,
     });
 
