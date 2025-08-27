@@ -6,7 +6,10 @@ import prisma from "./lib/prisma"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     adapter: PrismaAdapter(prisma),
-    providers: [Google],
+    providers: [Google({
+        clientId: process.env.GOOGLE_CLIENT_ID!,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    })],
     callbacks: {
         async session({ session, token }) {
             if (session.user && token?.sub) {
@@ -15,4 +18,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return session;
         },
     },
+
+    secret: process.env.NEXTAUTH_SECRET,
 })
