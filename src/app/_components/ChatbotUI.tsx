@@ -9,38 +9,41 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 
+
 const ChatbotUI = () => {
-
-
-    const { messages, input, handleInputChange, handleSubmit, isLoading, stop } = useChat({
+    const data = useChat({
         api: "api/chat"
-      })
-      const [rows, setRows] = useState(1)
-      const textareaRef = useRef<HTMLTextAreaElement>(null)
-    
-    
-    
-      useEffect(() => {
+    })
+
+    const { messages, input, handleInputChange, handleSubmit, isLoading, stop } = data;
+
+    const [rows, setRows] = useState(1)
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+
+
+    useEffect(() => {
         if (textareaRef.current) {
-          const lineHeight = Number.parseInt(getComputedStyle(textareaRef.current).lineHeight)
-          const newRows = Math.min(5, Math.floor(textareaRef.current.scrollHeight / lineHeight))
-          setRows(newRows)
+            const lineHeight = Number.parseInt(getComputedStyle(textareaRef.current).lineHeight)
+            const newRows = Math.min(5, Math.floor(textareaRef.current.scrollHeight / lineHeight))
+            setRows(newRows)
         }
-      }, [])
-    
-      const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    }, [])
+
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         handleSubmit(e)
         setRows(1)
-      }
-    
-      const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    }
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === "Enter" && !e.shiftKey) {
-          e.preventDefault()
-          handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)
-          setRows(1)
+            e.preventDefault()
+            handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)
+            setRows(1)
         }
-      }
+    }
+
 
     return (
         <div className="flex items-center justify-center min-h-screen w-full p-4">

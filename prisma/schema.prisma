@@ -26,7 +26,7 @@ model User {
   sessions      Session[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  ChatMessage   ChatMessage[]
+  ChatMessage   Chat[]
 }
 
 model Account {
@@ -74,13 +74,21 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model ChatMessage {
-  id         Int      @id @default(autoincrement())
+
+model Chat {
+  id        String     @id 
   userId     String
-  message    String
-  response   String
-  timestamp  DateTime @default(now())
-  model      String
-  tokensUsed Int
+  title     String
+  messages  Message[]
+  createdAt DateTime   @default(now())
   User       User     @relation(fields: [userId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  role      String   // 'user' or 'assistant'
+  content   String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String
+  createdAt DateTime @default(now())
 }
